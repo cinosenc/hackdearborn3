@@ -79,25 +79,34 @@ function App() {
                         .filter(sentence => sentence.lemma === selectedWord.lemma)
                         .map((sentence, index) => (
                             <div key={index}>
-                                {sentence.ojibwe_sentence && <p><strong>Ojibwe:</strong> {sentence.ojibwe_sentence}</p>}
-                                {sentence.english_sentence && <p><strong>English:</strong> {sentence.english_sentence}</p>}
+                                {sentence.ojibwe_sentence && (
+                                    <span>
+                                        <strong>Ojibwe:</strong> {sentence.ojibwe_sentence} &nbsp;
+                                    </span>
+                                )}
+                                {sentence.english_sentence && (
+                                    <span>
+                                        <strong>English:</strong> {sentence.english_sentence}
+                                    </span>
+                                )}
                             </div>
                         ))}
+
                     <h3>Inflected Forms</h3>
                     {inflections
                         .filter(inflection => inflection.lemma === selectedWord.lemma)
                         .map((inflection, index) => (
                             <div key={index}>
-                                <p><strong>Inflection Type:</strong> {inflection.inflection_type}</p>
-                                <p><strong>Inflected Form:</strong> {inflection.inflected_form}</p>
-                                <p><strong>Stem:</strong> {inflection.stem}</p>
-                                <p><strong>Reduplicated Form:</strong> {inflection.reduplicated_form}</p>
-                                <p><strong>Subject:</strong> {inflection.subject}</p>
-                                <p><strong>Object:</strong> {inflection.object}</p>
-                                <p><strong>Mood:</strong> {inflection.mood}</p>
-                                <p><strong>Number:</strong> {inflection.number}</p>
-                                <p><strong>Diminutive:</strong> {inflection.diminutive}</p>
-                                <p><strong>Locative:</strong> {inflection.locative}</p>
+                                <p><strong>Inflection Type:</strong> {inflection.inflection_type}
+                                <strong> Inflected Form:</strong> {inflection.inflected_form}
+                                <strong> Stem:</strong> {inflection.stem}
+                                <strong> Reduplicated Form:</strong> {inflection.reduplicated_form}
+                                <strong> Subject:</strong> {inflection.subject}
+                                <strong> Object:</strong> {inflection.object}
+                                <strong> Mood:</strong> {inflection.mood}
+                                <strong> Number:</strong> {inflection.number}
+                                <strong> Diminutive:</strong> {inflection.diminutive}
+                                <strong> Locative:</strong> {inflection.locative}</p>
                             </div>
                         ))}
                 </div>
