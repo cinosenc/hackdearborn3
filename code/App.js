@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { loadDictionaryData, loadExampleSentences, loadInflectionData } from './services/dataService';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './App.css'; // Import your custom CSS file
 
 function App() {
     const [dictionary, setDictionary] = useState([]);
@@ -32,7 +33,6 @@ function App() {
         setSearchTerm(''); // Clear the search term when a word is selected
     };
 
-    // Modify the filteredWords logic
     const filteredWords = dictionary.filter(word => {
         const searchLower = searchTerm.trim().toLowerCase();
         const matchesLemma = word.lemma && word.lemma.toLowerCase().includes(searchLower);
@@ -42,27 +42,25 @@ function App() {
         return matchesLemma || matchesEnglish;
     });
 
-
     return (
-        <div className="container">
-            <h1>Ojibwe Dictionary</h1>
+        <div className="container d-flex flex-column align-items-center justify-content-center vh-100">
+            <h1 className="text-center">Ojibwe Dictionary</h1>
             <input
                 type="text"
-                className="form-control"
+                className="form-control w-50 mb-3"
                 placeholder="Search..."
                 value={searchTerm}
                 onChange={handleSearch}
             />
-            <ul className="list-group mt-3">
-                {filteredWords.length > 0 ? (
+            <ul className="list-group w-50">
+                {searchTerm && filteredWords.length > 0 ? (
                     filteredWords.map((word) => (
                         <li
                             key={word.id}
                             className="list-group-item"
                             onClick={() => handleWordSelect(word)}
                         >
-                            {word.lemma} - 
-                            {/* Show a small portion of the definition/translation */}
+                            {word.lemma} -
                             <span>
                                 {word.translation ? word.translation.slice(0, 20) : ''}...
                             </span>
@@ -73,9 +71,8 @@ function App() {
                 )}
             </ul>
 
-
             {selectedWord && (
-                <div className="mt-3">
+                <div className="mt-3 w-50 text-center">
                     <h2>{selectedWord.lemma}</h2>
                     <p>Part of Speech: {selectedWord.part_of_speech}</p>
                     <p>Definition: {selectedWord.translation}</p>
@@ -102,16 +99,18 @@ function App() {
                         .filter(inflection => inflection.lemma === selectedWord.lemma)
                         .map((inflection, index) => (
                             <div key={index}>
-                                <p><strong>Inflection Type:</strong> {inflection.inflection_type}
-                                <strong> Inflected Form:</strong> {inflection.inflected_form}
-                                <strong> Stem:</strong> {inflection.stem}
-                                <strong> Reduplicated Form:</strong> {inflection.reduplicated_form}
-                                <strong> Subject:</strong> {inflection.subject}
-                                <strong> Object:</strong> {inflection.object}
-                                <strong> Mood:</strong> {inflection.mood}
-                                <strong> Number:</strong> {inflection.number}
-                                <strong> Diminutive:</strong> {inflection.diminutive}
-                                <strong> Locative:</strong> {inflection.locative}</p>
+                                <p>
+                                    <strong>Inflection Type:</strong> {inflection.inflection_type}
+                                    <strong> Inflected Form:</strong> {inflection.inflected_form}
+                                    <strong> Stem:</strong> {inflection.stem}
+                                    <strong> Reduplicated Form:</strong> {inflection.reduplicated_form}
+                                    <strong> Subject:</strong> {inflection.subject}
+                                    <strong> Object:</strong> {inflection.object}
+                                    <strong> Mood:</strong> {inflection.mood}
+                                    <strong> Number:</strong> {inflection.number}
+                                    <strong> Diminutive:</strong> {inflection.diminutive}
+                                    <strong> Locative:</strong> {inflection.locative}
+                                </p>
                             </div>
                         ))}
                 </div>
