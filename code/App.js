@@ -40,6 +40,7 @@ function App() {
             });
             setFilteredWords(matches); // Set the filtered words
             setSearchTriggered(true); // Mark that search has been triggered
+            setSelectedWord(null); // Clear the previously selected word
         }
     };
 
