@@ -7,7 +7,7 @@ This is a simple web app implementation of an Ojibwe-English dictionary. Users a
 \*Anishinaabemowin is a morphologically rich language, a characteristic shared by many indigenous North American languages. The morphological complexity of these languages is often significant when compared to high-resource languages such as English. The structure of a language is an important factor that affects the ease with which the languages can be digitized; models trained on languages like English often simply cannot handle morphologically rich languages like Anishinaabemowin without extensive alteration.
 
 ## How we built it
-All of the dictionary data used in this project was collected from the Ojibwe People's Dictionary, published by the University of Minnesota. This data is available under [http://creativecommons.org/licenses/by-nc-sa/3.0/](Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License). Dictionary data was processed using Python in Jupyter Notebook.
+All of the dictionary data used in this project was collected from the Ojibwe People's Dictionary, published by the University of Minnesota. This data is available under  [Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License](http://creativecommons.org/licenses/by-nc-sa/3.0/). Dictionary data was processed using Python in Jupyter Notebook.
 
 The dictionary web implementation was created using React, JavaScript, and CSS in Visual Studio. ChatGPT assisted in troubleshooting coding errors.
 
