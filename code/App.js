@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { loadDictionaryData, loadExampleSentences } from './services/dataService';
+import { loadDictionaryData, loadExampleSentences, loadInflectionData } from './services/dataService';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
@@ -7,14 +7,17 @@ function App() {
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedWord, setSelectedWord] = useState(null);
     const [exampleSentences, setExampleSentences] = useState([]);
+    const [inflections, setInflections] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
             const dictData = await loadDictionaryData();
             const exampleData = await loadExampleSentences();
-            console.log('Loaded dictionary data:', JSON.stringify(dictData, null, 2)); // Log entire data structure
+            const inflectionData = await loadInflectionData();
+            console.log('Loaded dictionary data:', JSON.stringify(dictData, null, 2));
             setDictionary(dictData);
             setExampleSentences(exampleData);
+            setInflections(inflectionData);
         };
         fetchData();
     }, []);
@@ -24,21 +27,17 @@ function App() {
     };
 
     const handleWordSelect = (word) => {
+        console.log('Selected Word:', word);
         setSelectedWord(word);
+        setSearchTerm(''); // Clear the search term when a word is selected
     };
 
-    // Define filteredWords
     const filteredWords = dictionary.filter(word => {
         if (word.lemma) {
-            console.log('Checking word:', word.lemma); // Debugging output
-            console.log('Against searchTerm:', searchTerm); // Debugging output
             return word.lemma.trim().toLowerCase().includes(searchTerm.trim().toLowerCase());
         }
         return false;
     });
-
-    // Log filtered words here
-    console.log('Filtered words:', filteredWords); // Check what words are being filtered
 
     return (
         <div className="container">
@@ -51,18 +50,22 @@ function App() {
                 onChange={handleSearch}
             />
             <ul className="list-group mt-3">
-                {filteredWords.length > 0 ? (
-                    filteredWords.map((word) => (
-                        <li
-                            key={word.id}
-                            className="list-group-item"
-                            onClick={() => handleWordSelect(word)}
-                        >
-                            {word.lemma} - {word.english}
-                        </li>
-                    ))
+                {searchTerm ? (
+                    filteredWords.length > 0 ? (
+                        filteredWords.map((word) => (
+                            <li
+                                key={word.id}
+                                className="list-group-item"
+                                onClick={() => handleWordSelect(word)}
+                            >
+                                {word.lemma} - {word.english}
+                            </li>
+                        ))
+                    ) : (
+                        <li className="list-group-item">No results found</li>
+                    )
                 ) : (
-                    searchTerm && <li className="list-group-item">No results found</li>
+                    <li className="list-group-item">Start typing to search...</li>
                 )}
             </ul>
 
@@ -80,9 +83,26 @@ function App() {
                                 {sentence.english_sentence && <p><strong>English:</strong> {sentence.english_sentence}</p>}
                             </div>
                         ))}
+                    <h3>Inflected Forms</h3>
+                    {inflections
+                        .filter(inflection => inflection.lemma === selectedWord.lemma)
+                        .map((inflection, index) => (
+                            <div key={index}>
+                                <p><strong>Inflection Type:</strong> {inflection.inflection_type}</p>
+                                <p><strong>Inflected Form:</strong> {inflection.inflected_form}</p>
+                                <p><strong>Stem:</strong> {inflection.stem}</p>
+                                <p><strong>Reduplicated Form:</strong> {inflection.reduplicated_form}</p>
+                                <p><strong>Subject:</strong> {inflection.subject}</p>
+                                <p><strong>Object:</strong> {inflection.object}</p>
+                                <p><strong>Mood:</strong> {inflection.mood}</p>
+                                <p><strong>Number:</strong> {inflection.number}</p>
+                                <p><strong>Diminutive:</strong> {inflection.diminutive}</p>
+                                <p><strong>Locative:</strong> {inflection.locative}</p>
+                            </div>
+                        ))}
                 </div>
             )}
-        </div> // Closing the div properly here
+        </div>
     );
 }
 
