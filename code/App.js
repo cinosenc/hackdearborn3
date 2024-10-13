@@ -32,12 +32,16 @@ function App() {
         setSearchTerm(''); // Clear the search term when a word is selected
     };
 
+    // Modify the filteredWords logic
     const filteredWords = dictionary.filter(word => {
-        if (word.lemma) {
-            return word.lemma.trim().toLowerCase().includes(searchTerm.trim().toLowerCase());
-        }
-        return false;
+        const searchLower = searchTerm.trim().toLowerCase();
+        const matchesLemma = word.lemma && word.lemma.toLowerCase().includes(searchLower);
+        const matchesEnglish = word.translation && word.translation.toLowerCase().includes(searchLower);
+
+        console.log(`Word: ${word.lemma}, English: ${word.translation}, Matches: ${matchesLemma || matchesEnglish}`);
+        return matchesLemma || matchesEnglish;
     });
+
 
     return (
         <div className="container">
@@ -50,24 +54,25 @@ function App() {
                 onChange={handleSearch}
             />
             <ul className="list-group mt-3">
-                {searchTerm ? (
-                    filteredWords.length > 0 ? (
-                        filteredWords.map((word) => (
-                            <li
-                                key={word.id}
-                                className="list-group-item"
-                                onClick={() => handleWordSelect(word)}
-                            >
-                                {word.lemma} - {word.english}
-                            </li>
-                        ))
-                    ) : (
-                        <li className="list-group-item">No results found</li>
-                    )
+                {filteredWords.length > 0 ? (
+                    filteredWords.map((word) => (
+                        <li
+                            key={word.id}
+                            className="list-group-item"
+                            onClick={() => handleWordSelect(word)}
+                        >
+                            {word.lemma} - 
+                            {/* Show a small portion of the definition/translation */}
+                            <span>
+                                {word.translation ? word.translation.slice(0, 20) : ''}...
+                            </span>
+                        </li>
+                    ))
                 ) : (
-                    <li className="list-group-item">Start typing to search...</li>
+                    searchTerm && <li className="list-group-item">No results found</li>
                 )}
             </ul>
+
 
             {selectedWord && (
                 <div className="mt-3">
