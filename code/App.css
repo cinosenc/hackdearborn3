@@ -33,3 +33,8 @@
 .mt-3 {
     margin-top: 1rem;
 }
+
+.word-of-the-day {
+    padding-top: 100px;
+    margin-top: 50px; /* Ensure some margin below the header */
+}
